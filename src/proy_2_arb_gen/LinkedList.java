@@ -4,7 +4,7 @@
 * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit
 * this template
 */
-package estructuras;
+package proy_2_arb_gen;
 
 /**
  * Clase Lista enlazada con nodos de Tipo T @see Nodo<T>.
