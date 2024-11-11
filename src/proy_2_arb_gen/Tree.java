@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package gameofthrones;
+package proy_2_arb_gen;
 
 /**
  * Estructura de árbol general para representar una estructura o árbol
