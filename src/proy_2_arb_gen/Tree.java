@@ -232,6 +232,7 @@ public class Tree<T> implements ITree<T> {
         }
         LinkedList<ITree<T>> encontrados = new LinkedList<>();
         for (int i = 0; i < this.hijos.size(); i++) {
+            this.hijos.get(i).setComparador(this.comparador);
             if (this.comparador.compareTo(this.hijos.get(i).getValor(), valor) == 0) {
                 encontrados.agregar(this.hijos.get(i));
             }
@@ -241,13 +242,13 @@ public class Tree<T> implements ITree<T> {
 
     /**
      * Busca un elemento en el arbol y lo guarda en la lista de hijos encontrados.
-     * Esta es la parte recursiva del método buscar.
+     * Esta es la parte recursiva del metodo buscar.
      * 
      * @param valor
      * @param encontrados
      */
 
-    private void buscar(T valor, LinkedList<ITree<T>> encontrados) {
+    private void buscarPorProfundidad(T valor, LinkedList<ITree<T>> encontrados) {
 
         // Caso base de la recursividad.
 
@@ -256,7 +257,8 @@ public class Tree<T> implements ITree<T> {
         }
         for (int i = 0; i < this.hijos.size(); i++) {
             Tree<T> hijo = (Tree<T>) this.hijos.get(i);
-            hijo.buscar(valor, encontrados);
+            hijo.setComparador(this.comparador);
+            hijo.buscarPorProfundidad(valor, encontrados);
         }
     }
 
@@ -269,12 +271,36 @@ public class Tree<T> implements ITree<T> {
      * @return la lista de hijos encontrados
      */
     @Override
-    public LinkedList<ITree<T>> buscar(T valor) {
+    public LinkedList<ITree<T>> buscarPorProfundidad(T valor) {
         if (this.comparador == null) {
             throw new RuntimeException("No se ha definido un comparador");
         }
         LinkedList<ITree<T>> encontrados = new LinkedList<>();
-        this.buscar(valor, encontrados); // Llamada recursiva
+        this.buscarPorProfundidad(valor, encontrados); // Llamada recursiva
+        return encontrados;
+    }
+
+    @Override
+    public LinkedList<ITree<T>> buscarPorAmplitud(T valor){
+        if(this.comparador == null){
+            throw new RuntimeException("No se ha definido un comparador");
+        }
+        LinkedList<ITree<T>> encontrados = new LinkedList<>();
+        LinkedList<ITree<T>> cola = new LinkedList<>();
+        if(this.vacio()){
+            return encontrados;
+        }
+        cola.agregar(this);
+        while(!cola.vacia()){
+            ITree<T> tree = cola.remover(0);
+            if(this.comparador.compareTo(tree.getValor(), valor) == 0){
+                encontrados.agregar(tree);
+            }
+            LinkedList<ITree<T>> hijos = tree.getHijos();
+            for(int i = 0; i < hijos.size(); i++){
+                cola.agregar(hijos.get(i));
+            }
+        }
         return encontrados;
     }
 
@@ -514,28 +540,27 @@ public class Tree<T> implements ITree<T> {
     }
 
     public static void main(String[] args) {
-        // Tree<Integer> arbol = new Tree<>(1);
-        // arbol.agregarHijo(new Tree<>(2));
-        // arbol.agregarHijo(new Tree<>(3));
-        // arbol.agregarHijo(new Tree<>(4));
-        // arbol.agregarHijo(new Tree<>(5));
-        // arbol.getHijo(0).agregarHijo(new Tree<>(6));
-        // arbol.getHijo(0).agregarHijo(new Tree<>(7));
-        // arbol.getHijo(2).agregarHijo(new Tree<>(8));
-        // // System.out.println(arbol.getNivel(2).toString());
-        // // System.out.println(arbol.getNumNiveL(arbol.buscar(2).get(0)));
-        // // System.out.println(arbol.numElementos());
-        // // Tree<Integer> arbol2 = new Tree<>(null);
-        // // System.out.println(arbol2.vacio());
-        // // System.out.println(arbol2.numElementos());
-        // Tree<Integer> nodo = (Tree<Integer>) arbol.buscar(8).get(0);
-        // LinkedList<ITree<Integer>> descendientes =
-        // arbol.getDescendientes(arbol.buscar(1).get(0));
-        // // System.out.println(descendientes);
-        // System.out.println(descendientes.toString());
-        // // Tree<Integer> padre = (Tree<Integer>) arbol.getPadre(arbol);
-        // // System.out.println(padre.toString());
+        Tree<Integer> arbol = new Tree<>(1);
+        arbol.agregarHijo(new Tree<>(2));
+        arbol.agregarHijo(new Tree<>(3));
+        arbol.agregarHijo(new Tree<>(4));
+        arbol.agregarHijo(new Tree<>(5));
+        arbol.getHijo(0).agregarHijo(new Tree<>(6));
+        arbol.getHijo(0).agregarHijo(new Tree<>(7));
+        arbol.getHijo(2).agregarHijo(new Tree<>(8));
+        // System.out.println(arbol.getNivel(2).toString());
+        // System.out.println(arbol.getNumNiveL(arbol.buscar(2).get(0)));
+        // System.out.println(arbol.numElementos());
+        // Tree<Integer> arbol2 = new Tree<>(null);
+        // System.out.println(arbol2.vacio());
+        // System.out.println(arbol2.numElementos());
+        Tree<Integer> nodo = (Tree<Integer>) arbol.buscarPorAmplitud(8).get(0);
+        LinkedList<ITree<Integer>> descendientes = arbol.getDescendientes(arbol.buscarPorAmplitud(1).get(0));
+        // System.out.println(descendientes);
+        System.out.println(descendientes.toString());
+        // Tree<Integer> padre = (Tree<Integer>) arbol.getPadre(arbol);
+        // System.out.println(padre.toString());
 
-        // // System.out.println(arbol.nivelesToString());
+        // System.out.println(arbol.nivelesToString());
     }
 }
