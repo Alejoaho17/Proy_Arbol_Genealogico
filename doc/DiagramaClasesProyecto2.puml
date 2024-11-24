@@ -1,0 +1,62 @@
+@startuml
+
+title Diagrama de Clases Proyecto #2 (Completo)
+skinparam ClassAttributeIconSize 0
+
+class AppController #LightSkyBlue {
+}
+
+class LinkedList<T> #LightGreen{
+}
+
+class ArrayList<T> #LightGreen{
+}
+
+class Nodo<T> #LightGreen{
+}
+
+class StringHashTable<T> #LightGreen{
+} 
+
+class Tree<T> #LightGreen {
+}
+
+interface IList<T> #LightSalmon {
+}
+
+interface ITree<T> #LightSalmon {
+}
+
+interface IHashTable<T> #LightSalmon {
+}
+
+class House #LightYellow{
+}
+
+class Lord #LightYellow {
+}
+
+class JsonLoader #LightGray {
+}
+
+IList *-down- LinkedList
+IList *-down- ArrayList
+ITree *-left- Tree
+StringHashTable <.down. House
+StringHashTable <.right. Tree
+IHashTable *-down- StringHashTable
+StringHashTable <.down. Lord
+House *-up- Tree
+Lord *-- Tree
+ArrayList o-down- Nodo
+LinkedList o-down- Nodo
+House "1" o-up- "1" Lord
+JsonLoader *-right- House
+JsonLoader *-right- Lord
+Tree <.down. AppController
+StringHashTable <.down. AppController
+StringHashTable .left.> LinkedList
+ArrayList <.up. House
+
+
+@enduml

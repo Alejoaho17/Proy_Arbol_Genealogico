@@ -1,0 +1,233 @@
+@startuml
+
+title Diagrama de Clases Proyecto #2 (Estructuras)
+skinparam ClassAttributeIconSize 0
+
+class AppController #LightSkyBlue {
+    +GRAPH_HEIGHT : int
+    +GRAPH_WIDTH : int
+    graph : Graph
+    --
+    +AppController()
+    +loadHouse(String nombreArchivo) : boolean
+    +getHouse(): House
+    +getHashTableUniqueName() : StringHashTable<Tree<Lord>> 
+    +getHashTableAlias() : StringHashTable<Tree<Lord>>
+    +loadTreeAndHashes() 
+    +loadTreeGraph(ITree<Lord> lord, String fatherNodeId, int x, int y, int xStepsSize, int yStepsSize)
+    +loadTreeGraph(ITree<Lord>)
+    +loadAntepasadosGraph(<ITree<Lord> lord)
+    +graphToString() : String
+    +reset()
+}
+
+class LinkedList<T> #LightGreen{
+    -cabeza : Nodo<T>
+    -cola : Nodo<T>
+    -cachedIndex : Integer
+    -cachedNodo : Nodo<T>
+    -tam : int
+    --
+    +LinkedList()
+    +LinkedList(T[] valores)
+    +LinkedList(IList<T> valores)
+    +size() : int
+    +vacia() : boolean
+    +transformarIndex(int index) : int
+    +insertar(int index, T valor) : boolean
+    +agregar(T valor)
+    +agregar(T[] valor) 
+    +get(int index) : T
+    +set(int index, T valor) : boolean
+    +remover(int index) : T
+    +vaciar()
+    +copiar() : LinkedList<T>
+    +equals(IList<T> list, IComparador<T> comparador) : boolean
+    +equals(IList<T> list) : boolean
+    +ordenar(IComparador<T> comparador)
+    +ordenar()
+    +invertir()
+    +buscar(T valor, IComparador<T> comparador) : int
+    +buscar(T valor) : int
+    +toString() : String
+}
+
+class ArrayList<T> #LightGreen{
+    -DEFAULT_TAM_INICIAL : int
+    -MAX_TAM_INICIAL : int
+    -DEFAULT_TAM_BLOQUE : int
+    -MAX_TAM_BLOQUE : int
+    -arreglo : T[]
+    -tamLista : int
+    -tamInicial : int
+    -tamBloque : int
+    --
+    +ArrayList()
+    +ArrayList(int tamBloque)
+    +ArrayList(int tamInicial, int tamBloque)
+    +ArrayList(T[] valor)
+    +ArrayList(IList<T> valor)
+    +getTamArreglo() : int
+    +setTamInicial(int tamInicial) : int
+    +setTamBloque(int tamBloque) : int
+    +size() : int
+    +vacia() : boolean
+    +transformarIndex(int index) : int
+    +insertar(int index, T valor) : boolean
+    +agregar(T valor) : boolean
+    +agregar(T[] valor) : boolean
+    +agregar(IList<T> valor) : boolean
+    +get(int index) : T
+    +set(int index, T valor) : boolean
+    +compactar()
+    +remover(int index) : T
+    +vaciar()
+    +copiar() : ArrayList<T>
+    +equals(IList<T> list, IComparador<T> comparador) : boolean
+    +equals(IList<T> list) : boolean
+    +ordenar(IComparador<T> comparador) 
+    +ordenar()
+    +invertir()
+    +buscar(T valor, IComparador<T> comparador) : int
+    +buscar(T valor) : int
+    +toString() : String
+}
+
+class Nodo<T> #LightGreen{
+    clave : String
+    valor : T
+    --
+    +Nodo(String clave, T valor)
+    +toString() : String
+}
+
+class StringHashTable<T> #LightGreen{
+    -PRIMOS : int[]
+    -DEFAULT_PCT_ESPACIO_ADICIONAL : int
+    -MAX_PCT_ESPACIO_ADICIONAL : int
+    -pctEspacioAdicional : Integer
+    -tam : int
+    -numItems : int
+    -hashTable : LinkedList<Nodo<T>>[]
+    --
+    +hash(String a) : int
+    +setPctEspacioAdicional(int pctEspacioAdicional)
+    +calcularTam(int tam) : int
+    +calcularPrimos(int tam) : int
+    +StringHashTable(int tam)
+    +StringHashTable(int tam, int pctEspacioAdicional)
+    +getTam() : int
+    +getNumItems() : int
+    +setTam(int tam)
+    +resetHashTable()
+    +insertar(String clave, T valor) : boolean
+    +insertar(String clave) : boolean
+    +buscar(String clave) : T
+    +buscarTodo(String clave) : LinkedList<T>
+    +toString() : String
+} 
+
+class Tree<T> #LightGreen {
+    -comparadadorString : IComparador<String> 
+    -comparadorNumber : IComparador<Number>
+    -valor : T
+    -hijos: LinkedList<ITree<T>>
+    -comparador : IComparador<T>
+    --
+    +Tree()
+    +Tree(T valor)
+    +Tree(T valor, IComparador<T> comparador)
+    -guessComparador()
+    +vacio() : boolean
+    +numElementos() : int
+    +getValor() : T
+    +setValor(T valor)
+    +getRaiz() : Tree<T>
+    +agregarHijo(ITree<T> hijo) : boolean
+    +getHijos() : LinkedList<ITree<T>>
+    +getHijo(int i) : Tree<T>
+    +setComparador(IComparador<T> comparador)
+    +buscarHijo(T valor) : LinkedList<ITree<T>>
+    +buscar(T valor) : LinkedList<ITree<T>>
+    +altura() : int
+    -getNiveles(int nivel, LinkedList<ITree<T>>[] niveles)
+    +getNiveles() : LinkedList<ITree<T>>
+    -getNivel(int nivelAcual, LinkedList<ITree<T>> elementosNivel, int nivelDeseado)
+    +getNivel(int nivel) : LinkedList<ITree<T>>
+    +getAscendentes(ITree<T> tree) : LinkedList<ITree<T>>
+    +getDescendientes(ITree<T> tree) : LinkedList<ITree<T>>
+    +getNumNivel(ITree<T> tree) : int
+    +getPadre(ITree<T> tree) : ITree<T>
+    +toString() : String
+}
+
+interface IList<T> #LightSalmon {
+    --
+    +size() : int
+    +vacia() : boolean
+    +transformarIndex(int index) : int
+    +insertar(int index, T valor) : boolean
+    +agregar(T valor)
+    +agregar(T[] valor) 
+    +get(int index) : T
+    +set(int index, T valor) : boolean
+    +remover(int index) : T
+    +vaciar()
+    +copiar() : LinkedList<T>
+    +equals(IList<T> list, IComparador<T> comparador) : boolean
+    +equals(IList<T> list) : boolean
+    +ordenar(IComparador<T> comparador)
+    +ordenar()
+    +invertir()
+    +buscar(T valor, IComparador<T> comparador) : int
+    +buscar(T valor) : int
+    +toString() : String
+}
+
+interface ITree<T> #LightSalmon {
+    --
+    +vacio() : boolean
+    +numElementos() : int
+    +getValor() : T
+    +setValor(T valor)
+    +getRaiz() : Tree<T>
+    +agregarHijo(ITree<T> hijo) : boolean
+    +getHijos() : LinkedList<ITree<T>>
+    +getHijo(int i) : Tree<T>
+    +setComparador(IComparador<T> comparador)
+    +buscarHijo(T valor) : LinkedList<ITree<T>>
+    +buscar(T valor) : LinkedList<ITree<T>>
+    +altura() : int
+    -getNiveles(int nivel, LinkedList<ITree<T>>[] niveles)
+    +getNiveles() : LinkedList<ITree<T>>
+    -getNivel(int nivelAcual, LinkedList<ITree<T>> elementosNivel, int nivelDeseado)
+    +getNivel(int nivel) : LinkedList<ITree<T>>
+    +getAscendentes(ITree<T> tree) : LinkedList<ITree<T>>
+    +getDescendientes(ITree<T> tree) : LinkedList<ITree<T>>
+    +getNumNivel(ITree<T> tree) : int
+    +getPadre(ITree<T> tree) : ITree<T>
+    +toString() : String    
+}
+    
+
+interface IHashTable<T> #LightSalmon {
+    +getTam() : int
+    +setTam(int tam)
+    +insertar(String clave, T valor) : boolean
+    +insertar(String clave) : boolean
+    +buscar(String clave) : T
+    +buscarTodos(String clave) : LinkedList<T> 
+    +toString() : String
+}
+
+IList *-down- LinkedList
+IList *-down- ArrayList
+ITree *-down- Tree
+IHashTable *-down- StringHashTable
+ArrayList o-down- Nodo
+LinkedList o-down- Nodo
+StringHashTable <.down. AppController
+Tree <.down. AppController
+
+
+@enduml

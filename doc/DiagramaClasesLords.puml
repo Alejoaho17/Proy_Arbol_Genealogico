@@ -1,0 +1,76 @@
+@startuml
+
+title Diagrama de Clases Proyecto #2 (Lords)
+skinparam ClassAttributeIconSize 0
+
+class House #LightYellow{
+    -HOUSE_TITLE : String
+    -lords : ArrayList<Lord>
+    -fullname : String
+    -name : String
+    --
+    +parse(String json) : boolean
+    +House()
+    +House(String json)
+    +vaciar()
+    +toString() : String
+}
+
+class Lord #LightYellow {
+    -LORD_TITLE : String
+    -HOUSE_TITLE : String
+    -NUMERAL_TITLE : String
+    -UNKNOWN_TITLE : String
+    -FATHER_TITLE : String
+    -MOTHER_TITLE : String
+    -ALIAS_TITLE : String
+    -TITLE_TITLE : String
+    -WED_TO_TITLE : String
+    -EYES_COLORS_TITLE : String
+    -HAIR_COLOR_TITLE : String
+    -CHILDREN_TITLE : String
+    -NOTES_TITLE : String
+    -FATE_TITLE : String
+    -comparadorNombre : IComparador<Lord>
+    -comparadorNombreFull : IComparador<Lord>
+    -comparadorUnicoNombre : IComparador<Lord>
+    -comparadorAlias : IComparador<Lord>
+    -comparadorTitle : IComparador<Lord>
+    -comparadorUnicoNombreComienzaPor : IComparador<Lord>
+    -comparadorAliasComienzaPor: IComparador<Lord>
+    -comparadorTituloComienzaPor: IComparador<Lord>
+    +fullName : String
+    +name : String
+    +lastName : String
+    +uniqueName : String
+    +house : String
+    +numeral : String
+    +father : String
+    +mother : String
+    +alias : String
+    +title : String
+    +wedTo : String
+    +eyesColor : String
+    +hairColor : String
+    +children : String
+    +notes : String
+    +fate : String
+    +parse(String json) : boolean
+    +Lord()
+    +Lord(String json)
+    +equals(Lord lord) : boolean
+    +completeDataToString() : String
+    +toString() : String
+}
+
+class JsonLoader #LightGray {
+    +load(String nombreArchivo) : String
+}
+
+House "1" o-right- "1" Lord
+JsonLoader *-down- House
+JsonLoader *-down- Lord
+
+
+
+@enduml
